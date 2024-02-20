@@ -35,7 +35,7 @@ const msalconfig = {
   auth: {
     clientId: "5047e9a3-2b87-4fc9-abd8-9e85cca0e02d",
     authority: "https://login.microsoftonline.com/common/",
-    redirectUri: "https://sairajobs.onrender.com/",
+    redirectUri: "http://localhost:5502/",
   },
   cache: {
     cacheLocation: "sessionstorage",
