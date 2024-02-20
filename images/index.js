@@ -35,7 +35,7 @@ const currentHost = window.location.hostname;
 const currentProtocol = window.location.protocol;
 
 // Construct the redirect URI based on the current hostname and protocol
-const redirectUri = `${currentProtocol}//${currentHost}:5502/`;
+const redirectUri = `${currentProtocol}//${currentHost}/`;
 
 // Show the redirect URI in an alert box
 alert("Redirect URI: " + redirectUri);
