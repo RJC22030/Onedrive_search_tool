@@ -30,18 +30,30 @@ inputElement.addEventListener("input", (event) => {
     }
   });
 });
+// Dynamically get the current hostname and protocol
+const currentHost = window.location.hostname;
+const currentProtocol = window.location.protocol;
+
+// Construct the redirect URI based on the current hostname and protocol
+const redirectUri = `${currentProtocol}//${currentHost}:5502/`;
+
+// Show the redirect URI in an alert box
+alert("Redirect URI: " + redirectUri);
+
 // MSAL object definition and creation
 const msalconfig = {
   auth: {
     clientId: "5047e9a3-2b87-4fc9-abd8-9e85cca0e02d",
     authority: "https://login.microsoftonline.com/common/",
-    redirectUri: "https://localhost.onrender.com/",
+    // Use the dynamically generated redirectUri
+    redirectUri: redirectUri,
   },
   cache: {
     cacheLocation: "sessionstorage",
     storeAuthStateInCookie: true,
   },
 };
+
 const uniqueFileNames = new Set();
 //Initially accesstoken is set to null
 var accessToken = null;
