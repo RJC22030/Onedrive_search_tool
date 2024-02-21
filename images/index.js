@@ -35,7 +35,7 @@ inputElement.addEventListener("input", (event) => {
 // MSAL object definition and creation
 const msalconfig = {
   auth: {
-    clientId: "7d279afb-9196-4c71-ae88-a4ee0a3767eb",
+    clientId: "56127de5-9f6a-46e4-a207-a069483e4a18",
     authority: "https://login.microsoftonline.com/common/",
     // Use the dynamically generated redirectUri with port number
     redirectUri: "https://sairajobs.onrender.com/" ,
