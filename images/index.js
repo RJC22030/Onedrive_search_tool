@@ -48,6 +48,7 @@ const msalconfig = {
     authority: "https://login.microsoftonline.com/common/",
     // Use the dynamically generated redirectUri with port number
     redirectUri: redirectUri,
+    clientSecret: 'f805bf8f-9f58-4e24-abdc-635cf69e60cd'
   },
   cache: {
     cacheLocation: "sessionstorage",
