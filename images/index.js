@@ -44,7 +44,7 @@ alert("Redirect URI: " + redirectUri);
 // MSAL object definition and creation
 const msalconfig = {
   auth: {
-    clientId: "5ef1764a-6592-43ad-b013-9607f6f2cfac",
+    clientId: "ab7f9106-c3b7-4fd8-a5eb-c550a864af0a",
     authority: "https://login.microsoftonline.com/common/",
     // Use the dynamically generated redirectUri with port number
     redirectUri: redirectUri,
