@@ -1,7 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
-const msal = require("@azure/msal-node"); // Import MSAL Node.js library
 const fs = require("fs");
 
 const DEFAULT_PORT = 5502;
