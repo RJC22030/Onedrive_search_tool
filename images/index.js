@@ -36,7 +36,7 @@ const currentProtocol = window.location.protocol;
 const currentPort = window.location.port;
 
 // Construct the redirect URI based on the current hostname, protocol, and port
-const redirectUri = `${currentProtocol}//${currentHost}/`;
+const redirectUri = `${currentProtocol}//${currentHost}/auth`;
 
 // Show the redirect URI in an alert box for debugging (optional)
 alert("Redirect URI: " + redirectUri);
