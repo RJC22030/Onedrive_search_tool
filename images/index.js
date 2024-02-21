@@ -30,16 +30,7 @@ inputElement.addEventListener("input", (event) => {
     }
   });
 });
-// Dynamically get the current hostname, protocol, and port
-const currentHost = window.location.hostname;
-const currentProtocol = window.location.protocol;
-const currentPort = window.location.port;
 
-// Construct the redirect URI based on the current hostname, protocol, and port
-const redirectUri = "https://sairajobs.onrender.com/";
-
-// Show the redirect URI in an alert box for debugging (optional)
-alert("Redirect URI: " + redirectUri);
 
 // MSAL object definition and creation
 const msalconfig = {
@@ -47,7 +38,7 @@ const msalconfig = {
     clientId: "ab7f9106-c3b7-4fd8-a5eb-c550a864af0a",
     authority: "https://login.microsoftonline.com/common/",
     // Use the dynamically generated redirectUri with port number
-    redirectUri: redirectUri,
+    redirectUri: "https://sairajobs.onrender.com/" ,
     
   },
   cache: {
