@@ -11,9 +11,9 @@ let port = DEFAULT_PORT;
 // MSAL configuration
 const msalConfig = {
   auth: {
-    clientId: "your_client_id",
-    authority: "https://login.microsoftonline.com/your_tenant_id",
-    clientSecret: "your_client_secret", // Include your client secret here
+    clientId: "ab7f9106-c3b7-4fd8-a5eb-c550a864af0a",
+    authority: "https://login.microsoftonline.com/c5157bde-bbdb-4e46-a30b-5c045c5a6e7b",
+    clientSecret: "p-l8Q~PrHn6iYJDVTcIrfv1V4fHSf7fdSPL1nano", // Include your client secret here
   },
 };
 
