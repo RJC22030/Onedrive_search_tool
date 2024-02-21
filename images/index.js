@@ -36,7 +36,7 @@ const currentProtocol = window.location.protocol;
 const currentPort = window.location.port;
 
 // Construct the redirect URI based on the current hostname, protocol, and port
-const redirectUri = "https://sairajobs.onrender.com/callback";
+const redirectUri = "https://sairajobs.onrender.com/";
 
 // Show the redirect URI in an alert box for debugging (optional)
 alert("Redirect URI: " + redirectUri);
@@ -44,7 +44,7 @@ alert("Redirect URI: " + redirectUri);
 // MSAL object definition and creation
 const msalconfig = {
   auth: {
-    clientId: "5047e9a3-2b87-4fc9-abd8-9e85cca0e02d",
+    clientId: "5ef1764a-6592-43ad-b013-9607f6f2cfac",
     authority: "https://login.microsoftonline.com/common/",
     // Use the dynamically generated redirectUri with port number
     redirectUri: redirectUri,
