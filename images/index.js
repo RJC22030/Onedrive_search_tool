@@ -30,23 +30,19 @@ inputElement.addEventListener("input", (event) => {
     }
   });
 });
-
-
-// MSAL object definition and creation
+//MSAL object definition and creation
 const msalconfig = {
   auth: {
-    clientId: "56127de5-9f6a-46e4-a207-a069483e4a18",
-    authority: "https://login.microsoftonline.com/common/",
-    // Use the dynamically generated redirectUri with port number
-    redirectUri: "https://sairajobs.onrender.com/" ,
-    
+    clientId: "5047e9a3-2b87-4fc9-abd8-9e85cca0e02d",
+    authortity: "https://login.microsoftonline.com/common/",
+    //Replace the localhost url below with ur permanent webpage url
+    redirectUri: "http://localhost:5502/",
   },
   cache: {
     cacheLocation: "sessionstorage",
     storeAuthStateInCookie: true,
   },
 };
-
 const uniqueFileNames = new Set();
 //Initially accesstoken is set to null
 var accessToken = null;
@@ -59,7 +55,15 @@ const MSALobj = new msal.PublicClientApplication(msalconfig);
 //sign in function
 async function signIn() {
   const loginRequest = {
-    scopes: ["User.Read", "Files.Read", "Files.Read.All"],
+    scopes: [
+      "User.Read",
+      "Files.Read",
+      "Files.Read.All",
+      "Files.ReadWrite",
+      "Files.ReadWrite.All",
+      "Files.ReadWrite.AppFolder",
+      "Files.ReadWrite.Selected",
+    ],
   };
 
   MSALobj.loginRedirect(loginRequest)
@@ -204,7 +208,6 @@ function checkAuthentication() {
     // User is signed in, show the "Logout" button
     const loginButton = document.getElementById("loginButton");
     const signOutButton = document.getElementById("signOutButton");
-
     loginButton.style.display = "none";
     signOutButton.style.display = "inline-block";
   }
@@ -234,3 +237,47 @@ document.addEventListener("keydown", function (event) {
     Inputsplit();
   }
 });
+
+// Initialize Graph client with access token
+const graphClient = null;
+
+// Function to sync folder to OneDrive
+async function syncFunction() {
+  const filePath = prompt("Enter file path: ");
+  const destPath = prompt("Destination folder name: ");
+
+  try {
+    // Wait for the initialization of the access token
+    await MSALobj.handleRedirectPromise();
+
+    // Check if accessToken is available
+    if (!accessToken) {
+      console.error("Access token is not available.");
+      return;
+    }
+
+    // Send a request to upload the file to OneDrive
+    fetch("/upload-to-onedrive", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filePath, accessToken, destPath }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Folder monitoring started successfully");
+        } else {
+          console.error("Failed to start folder monitoring");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  } catch (error) {
+    console.error("Error initializing access token:", error);
+  }
+}
+
+// Call syncFunction function when the "Sync" button is clicked
+document.getElementById("syncButton").addEventListener("click", syncFunction);
