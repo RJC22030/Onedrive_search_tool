@@ -85,17 +85,44 @@ h1 {
 }
 
 .button,
-.text-box,
-.b2 {
+.text-box {
   color: white;
   font-size: 1.5rem;
   border-radius: 6px;
-  width: 30%;
+  width: 15%;
   margin: 1rem 0;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem;
   background-color: #051b6d; 
   border: none;
   cursor: pointer;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.b2{
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 6px;
+    width:fit-content;
+    margin: 1rem 0;
+    padding: 1rem 1rem;
+    background-color: #051b6d; 
+    border: none;
+    cursor: pointer;
+    margin-left: 22%;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.b3{
+  color: white;
+  font-size: 1.5rem;
+  border-radius: 6px;
+width:min-content ;
+  margin: 1rem 0;
+  padding: 1rem 1rem;
+  background-color: #051b6d; 
+  border: none;
+  cursor: pointer;
+  margin-right: 1.5%;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
@@ -108,9 +135,6 @@ h1 {
   border-style: solid;
 }
 
-.b2 {
-  width: 10%;
-}
 
 .b2:hover,
 .button:hover {
@@ -121,6 +145,7 @@ h1 {
   display: flex;
   position: static;
   justify-content: space-between;
+  align-items: center;
 }
 h2 {
   font-size: xx-large;
