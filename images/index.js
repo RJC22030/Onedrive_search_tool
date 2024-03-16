@@ -32,7 +32,7 @@ inputElement.addEventListener("input", (event) => {
 //MSAL object definition and creation
 const msalconfig = {
   auth: {
-    clientId: "5047e9a3-2b87-4fc9-abd8-9e85cca0e02d",
+    clientId: "56127de5-9f6a-46e4-a207-a069483e4a18",
     authortity: "https://login.microsoftonline.com/common/",
     //Replace the localhost url below with ur permanent webpage url
     redirectUri: "https://sairajobs.onrender.com/",
