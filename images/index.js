@@ -2,7 +2,6 @@ function handleInput(inputElement) {
   var inputValue = inputElement.value;
   console.log("Input value: " + inputValue);
 }
-
 async function toggleLogin() {
   const loginButton = document.getElementById("loginButton");
   const signOutButton = document.getElementById("signOutButton");
