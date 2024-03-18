@@ -242,7 +242,6 @@ document.addEventListener("keydown", function (event) {
 const graphClient = null;
 
 // Function to sync folder to OneDrive
-// Function to sync folder to OneDrive
 async function syncFunction() {
   const filePath = prompt("Enter file path: ");
   const destPath = prompt("Destination folder name: ");
@@ -259,7 +258,6 @@ async function syncFunction() {
 
     // Send a request to upload the file to OneDrive
     fetch("/upload-to-onedrive", {
-      // Use relative path
       method: "POST",
       headers: {
         "Content-Type": "application/json",
