@@ -256,14 +256,13 @@ async function syncFunction() {
     }
 
     // Send a request to upload the file to OneDrive
-    fetch("/upload-to-onedrive", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ filePath, accessToken, destPath }),
-    })
-      .then((response) => {
+fetch("https://sairajobs.onrender.com/upload-to-onedrive", { // Update the URL here
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ filePath, accessToken, destPath }),
+}).then((response) => {
         if (response.ok) {
           console.log("Folder monitoring started successfully");
         } else {
