@@ -23,7 +23,7 @@ async function uploadFileToDrive(filePath, client, folderPath) {
 }
 
 // API endpoint to trigger OneDrive file upload
-app.post("https://sairajobs.onrender.com/upload-to-onedrive", (req, res) => {
+app.post("/upload-to-onedrive", (req, res) => {
   const { filePath, accessToken, destPath } = req.body;
   if (!filePath || !accessToken || !destPath) {
     return res
