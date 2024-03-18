@@ -2,6 +2,7 @@ function handleInput(inputElement) {
   var inputValue = inputElement.value;
   console.log("Input value: " + inputValue);
 }
+
 async function toggleLogin() {
   const loginButton = document.getElementById("loginButton");
   const signOutButton = document.getElementById("signOutButton");
@@ -35,7 +36,7 @@ const msalconfig = {
     clientId: "56127de5-9f6a-46e4-a207-a069483e4a18",
     authortity: "https://login.microsoftonline.com/common/",
     //Replace the localhost url below with ur permanent webpage url
-    redirectUri: "https://sairajobs.onrender.com/",
+    redirectUri: "http://localhost:5502/",
   },
   cache: {
     cacheLocation: "sessionstorage",
@@ -241,6 +242,7 @@ document.addEventListener("keydown", function (event) {
 const graphClient = null;
 
 // Function to sync folder to OneDrive
+// Function to sync folder to OneDrive
 async function syncFunction() {
   const filePath = prompt("Enter file path: ");
   const destPath = prompt("Destination folder name: ");
@@ -256,13 +258,15 @@ async function syncFunction() {
     }
 
     // Send a request to upload the file to OneDrive
-fetch("https://sairajobs.onrender.com/upload-to-onedrive", { // Update the URL here
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ filePath, accessToken, destPath }),
-}).then((response) => {
+    fetch("/upload-to-onedrive", {
+      // Use relative path
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filePath, accessToken, destPath }),
+    })
+      .then((response) => {
         if (response.ok) {
           console.log("Folder monitoring started successfully");
         } else {
