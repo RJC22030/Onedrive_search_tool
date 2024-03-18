@@ -19,6 +19,7 @@ async function uploadFileToDrive(filePath, client, folderPath) {
     console.log("File uploaded successfully");
   } catch (error) {
     console.error("Error uploading file:", error);
+    throw error; // Add this line to propagate the error to the caller
   }
 }
 
@@ -41,14 +42,20 @@ app.post("/upload-to-onedrive", (req, res) => {
   const files = fs.readdirSync(filePath);
   files.forEach((filename) => {
     const fullPath = path.join(filePath, filename);
-    uploadFileToDrive(fullPath, client, destPath);
+    uploadFileToDrive(fullPath, client, destPath).catch((error) => {
+      console.error("Error uploading file:", error);
+      res.status(500).send("Internal Server Error");
+    });
   });
 
   // Watch for changes in the folder
   fs.watch(filePath, (eventType, filename) => {
     if (filename && eventType === "change") {
       console.log(`File ${filename} has been modified`);
-      uploadFileToDrive(path.join(filePath, filename), client, destPath);
+      uploadFileToDrive(path.join(filePath, filename), client, destPath).catch((error) => {
+        console.error("Error uploading file:", error);
+        res.status(500).send("Internal Server Error");
+      });
     }
   });
 
