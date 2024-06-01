@@ -5,10 +5,10 @@ const fs = require("fs");
 const { Client } = require("@microsoft/microsoft-graph-client");
 
 const app = express();
-const port = process.env.PORT || 5502; // Use PORT environment variable or default to 5502
+const port = process.env.PORT || 5502;
 
 app.use(morgan("dev"));
-app.use(express.json()); // Middleware to parse JSON request bodies
+app.use(express.json());
 
 async function uploadFileToDrive(filePath, client, folderPath) {
   try {
@@ -22,7 +22,6 @@ async function uploadFileToDrive(filePath, client, folderPath) {
   }
 }
 
-// API endpoint to trigger OneDrive file upload
 app.post("/upload-to-onedrive", (req, res) => {
   const { filePath, accessToken, destPath } = req.body;
   if (!filePath || !accessToken || !destPath) {
@@ -37,14 +36,12 @@ app.post("/upload-to-onedrive", (req, res) => {
     },
   });
 
-  // Upload all existing files in the folder
   const files = fs.readdirSync(filePath);
   files.forEach((filename) => {
     const fullPath = path.join(filePath, filename);
     uploadFileToDrive(fullPath, client, destPath);
   });
 
-  // Watch for changes in the folder
   fs.watch(filePath, (eventType, filename) => {
     if (filename && eventType === "change") {
       console.log(`File ${filename} has been modified`);
@@ -55,11 +52,10 @@ app.post("/upload-to-onedrive", (req, res) => {
   res.send("Folder monitoring started successfully");
 });
 
-// Serve static files
-app.use(express.static("app"));
+app.use(express.static("public"));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-app.get("/", function (req, res) {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
