@@ -42,6 +42,7 @@ const msalconfig = {
     storeAuthStateInCookie: true,
   },
 };
+
 const uniqueFileNames = new Set();
 //Initially accesstoken is set to null
 var accessToken = null;
