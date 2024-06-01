@@ -34,12 +34,11 @@ inputElement.addEventListener("input", (event) => {
 const msalconfig = {
   auth: {
     clientId: "56127de5-9f6a-46e4-a207-a069483e4a18",
-    authortity: "https://login.microsoftonline.com/common/",
-    //Replace the localhost url below with ur permanent webpage url
-    redirectUri: "https://delightful-parfait-611437.netlify.app/",
+    authority: "https://login.microsoftonline.com/common/",
+    redirectUri: "https://www.sairajobs.onrender.com/",
   },
   cache: {
-    cacheLocation: "sessionstorage",
+    cacheLocation: "sessionStorage",
     storeAuthStateInCookie: true,
   },
 };
@@ -242,6 +241,7 @@ document.addEventListener("keydown", function (event) {
 const graphClient = null;
 
 // Function to sync folder to OneDrive
+
 async function syncFunction() {
   const filePath = prompt("Enter file path: ");
   const destPath = prompt("Destination folder name: ");
@@ -257,7 +257,7 @@ async function syncFunction() {
     }
 
     // Send a request to upload the file to OneDrive
-    fetch("/upload-to-onedrive", {
+    fetch("https://www.sairajobs.onrender.com/upload-to-onedrive", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -278,6 +278,9 @@ async function syncFunction() {
     console.error("Error initializing access token:", error);
   }
 }
+
+// Call syncFunction function when the "Sync" button is clicked
+document.getElementById("syncButton").addEventListener("click", syncFunction);
 
 // Call syncFunction function when the "Sync" button is clicked
 document.getElementById("syncButton").addEventListener("click", syncFunction);
