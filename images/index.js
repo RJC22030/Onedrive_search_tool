@@ -241,43 +241,38 @@ document.addEventListener("keydown", function (event) {
 // Initialize Graph client with access token
 const graphClient = null;
 
-// Function to sync folder to OneDrive
 async function syncFunction() {
   const filePath = prompt("Enter file path: ");
   const destPath = prompt("Destination folder name: ");
 
   try {
-    // Wait for the initialization of the access token
     await MSALobj.handleRedirectPromise();
 
-    // Check if accessToken is available
     if (!accessToken) {
       console.error("Access token is not available.");
       return;
     }
 
-    // Send a request to upload the file to OneDrive
-    fetch("/upload-to-onedrive", {
+    console.log("Sending payload:", { filePath, accessToken, destPath });
+
+    const response = await fetch("/upload-to-onedrive", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ filePath, accessToken, destPath }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log("Folder monitoring started successfully");
-        } else {
-          console.error("Failed to start folder monitoring");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    });
+
+    if (response.ok) {
+      console.log("Folder monitoring started successfully");
+    } else {
+      console.error("Failed to start folder monitoring");
+    }
   } catch (error) {
     console.error("Error initializing access token:", error);
   }
 }
 
-// Call syncFunction function when the "Sync" button is clicked
-document.getElementById("syncButton").addEventListener("click", syncFunction);
+document.getElementById("syncButton").addEventListener("click", syncFunction)
+
+
