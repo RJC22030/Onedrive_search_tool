@@ -231,37 +231,36 @@ document.addEventListener("keydown", function (event) {
 const graphClient = null;
 
 async function syncFunction() {
-  const filePath = prompt("Enter file path: ");
-  const destPath = prompt("Destination folder name: ");
+    const filePath = prompt("Enter file path: ");
+    const destPath = prompt("Destination folder name: ");
 
-  try {
-    // Wait for the initialization of the access token
-    await MSALobj.handleRedirectPromise();
+    try {
+        // Wait for the initialization of the access token
+        await MSALobj.handleRedirectPromise();
 
-    // Check if
-    if (!accessToken) {
-console.error("Access token is not available.");
-return;
-}
-      const response = await fetch("/upload-to-onedrive", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ filePath, accessToken, destPath }),
-});
+        // Check if accessToken is available
+        if (!accessToken) {
+            console.error("Access token is not available.");
+            return;
+        }
 
-if (response.ok) {
-  console.log("Folder monitoring started successfully");
-} else {
-  const errorText = await response.text();
-  console.error("Failed to start folder monitoring:", errorText);
-}
-      } catch (error) {
-console.error("Error:", error);
-}
+        const response = await fetch("/upload-to-onedrive", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ filePath, accessToken, destPath }),
+        });
+
+        if (response.ok) {
+            console.log("Folder monitoring started successfully");
+        } else {
+            const errorText = await response.text();
+            console.error("Failed to start folder monitoring:", errorText);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }
 
 document.getElementById("syncButton").addEventListener("click", syncFunction);
-      
-      
