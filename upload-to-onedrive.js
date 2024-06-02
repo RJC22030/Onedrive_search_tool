@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors"); // Import CORS middleware
 const router = express.Router();
 const fs = require("fs");
 const path = require("path");
