@@ -263,5 +263,6 @@ async function syncFunction() {
     }
 }
 
+
 document.getElementById("syncButton").addEventListener("click", syncFunction);
 
