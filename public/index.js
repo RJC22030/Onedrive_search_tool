@@ -228,39 +228,39 @@ document.addEventListener("keydown", function (event) {
 });
 
 const graphClient = null;
-
 async function syncFunction() {
-    const filePath = prompt("Enter file path: ");
-    const destPath = prompt("Destination folder name: ");
+  const filePath = prompt("Enter file path: ");
+  const destPath = prompt("Destination folder name: ");
 
-    try {
-        await MSALobj.handleRedirectPromise();
+  try {
+    // Wait for the initialization of the access token
+    await MSALobj.handleRedirectPromise();
 
-        if (!accessToken) {
-            console.error("Access token is not available.");
-            return;
-        }
-
-        fetch("/upload-to-onedrive", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ filePath, accessToken, destPath }),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    console.log("Folder monitoring started successfully");
-                } else {
-                    console.error("Failed to start folder monitoring");
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    } catch (error) {
-        console.error("Error initializing access token:", error);
+    // Check if accessToken is available
+    if (!accessToken) {
+      console.error("Access token is not available.");
+      return;
     }
+
+    // Send a request to upload the file to OneDrive
+    const response = await fetch("/upload-to-onedrive", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filePath, accessToken, destPath }),
+    });
+
+    if (response.ok) {
+      console.log("Folder monitoring started successfully");
+    } else {
+      const errorText = await response.text();
+      console.error("Failed to start folder monitoring:", errorText);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
+
 
 document.getElementById("syncButton").addEventListener("click", syncFunction);
