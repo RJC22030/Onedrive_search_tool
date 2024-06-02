@@ -5,10 +5,10 @@ const fs = require("fs");
 const { Client } = require("@microsoft/microsoft-graph-client");
 
 const app = express();
-const port = process.env.PORT || 5502; // Use PORT environment variable or default to 5502
+const port = process.env.PORT || 5502;
 
 app.use(morgan("dev"));
-app.use(express.json()); // Middleware to parse JSON request bodies
+app.use(express.json());
 
 async function uploadFileToDrive(filePath, client, folderPath) {
   try {
@@ -19,17 +19,17 @@ async function uploadFileToDrive(filePath, client, folderPath) {
     console.log("File uploaded successfully:", filePath);
   } catch (error) {
     console.error("Error uploading file:", filePath, error);
-    throw error; // Rethrow the error to handle it in the route
+    throw error;
   }
 }
 
-// API endpoint to trigger OneDrive file upload
 app.post("/upload-to-onedrive", async (req, res) => {
   const { filePath, accessToken, destPath } = req.body;
+  console.log("Received request to upload file:", { filePath, destPath });
+
   if (!filePath || !accessToken || !destPath) {
-    return res
-      .status(400)
-      .send("File path, access token, and folder path are required");
+    console.error("Missing required fields:", { filePath, accessToken, destPath });
+    return res.status(400).send("File path, access token, and folder path are required");
   }
 
   const client = Client.init({
@@ -39,14 +39,17 @@ app.post("/upload-to-onedrive", async (req, res) => {
   });
 
   try {
-    // Upload all existing files in the folder
+    if (!fs.existsSync(filePath)) {
+      console.error("File path does not exist:", filePath);
+      return res.status(400).send("File path does not exist");
+    }
+
     const files = fs.readdirSync(filePath);
     for (const filename of files) {
       const fullPath = path.join(filePath, filename);
       await uploadFileToDrive(fullPath, client, destPath);
     }
 
-    // Watch for changes in the folder
     fs.watch(filePath, async (eventType, filename) => {
       if (filename && eventType === "change") {
         console.log(`File ${filename} has been modified`);
@@ -61,7 +64,6 @@ app.post("/upload-to-onedrive", async (req, res) => {
   }
 });
 
-// Serve static files
 app.use(express.static("app"));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
