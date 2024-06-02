@@ -30,15 +30,15 @@ inputElement.addEventListener("input", (event) => {
     }
   });
 });
-//MSAL object definition and creation
 const msalconfig = {
   auth: {
     clientId: "56127de5-9f6a-46e4-a207-a069483e4a18",
     authority: "https://login.microsoftonline.com/common/",
-    redirectUri: "https://www.sairajobs.onrender.com/",
+    // Update the redirectUri to match your new domain
+    redirectUri: "https://sairajobs.onrender.com/",
   },
   cache: {
-    cacheLocation: "sessionStorage",
+    cacheLocation: "sessionstorage",
     storeAuthStateInCookie: true,
   },
 };
