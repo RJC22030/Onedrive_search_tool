@@ -6,7 +6,7 @@ const { Client } = require("@microsoft/microsoft-graph-client");
 
 const app = express();
 const port = process.env.PORT || 5502;
-
+app.use(cors()); // Enable CORS
 app.use(morgan("dev"));
 app.use(express.json());
 
