@@ -32,6 +32,11 @@ app.post("/upload-to-onedrive", async (req, res) => {
     return res.status(400).send("File path, access token, and folder path are required");
   }
 
+  if (!fs.existsSync(filePath)) {
+    console.error("File path does not exist:", filePath);
+    return res.status(400).send("File path does not exist");
+  }
+
   const client = Client.init({
     authProvider: (done) => {
       done(null, accessToken);
@@ -39,11 +44,6 @@ app.post("/upload-to-onedrive", async (req, res) => {
   });
 
   try {
-    if (!fs.existsSync(filePath)) {
-      console.error("File path does not exist:", filePath);
-      return res.status(400).send("File path does not exist");
-    }
-
     const files = fs.readdirSync(filePath);
     for (const filename of files) {
       const fullPath = path.join(filePath, filename);
