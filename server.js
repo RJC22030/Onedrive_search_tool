@@ -3,6 +3,7 @@ const cors = require("cors"); // Import CORS middleware
 const morgan = require("morgan");
 const path = require("path");
 const fs = require("fs");
+const uploadToOneDriveRoute = require("./routes/upload-to-onedrive");
 const { Client } = require("@microsoft/microsoft-graph-client");
 
 const app = express();
@@ -60,6 +61,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+app.use("/upload-to-onedrive", uploadToOneDriveRoute);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
