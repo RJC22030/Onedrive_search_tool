@@ -155,8 +155,8 @@ async function search(parameter) {
     successCount++;
     if (accessToken == null) {
         alert("Sign in");
-        return;
-    }
+       return;
+}
 
     const resultsList = document.getElementById("fileList");
     const apiUrl = `https://graph.microsoft.com/v1.0/me/drive/search(q='${parameter}')?select=name,webUrl`;
@@ -264,3 +264,4 @@ async function syncFunction() {
 }
 
 document.getElementById("syncButton").addEventListener("click", syncFunction);
+
