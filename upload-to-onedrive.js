@@ -24,7 +24,7 @@ async function uploadFileToDrive(filePath, accessToken, destPath) {
     throw error; // Throw the error to handle it in the route
   }
 }
-
+router.use(cors());
 // Route to handle file uploads to OneDrive
 router.post("/", async (req, res) => {
   const { filePath, accessToken, destPath } = req.body;
