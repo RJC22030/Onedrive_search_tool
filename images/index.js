@@ -1,18 +1,15 @@
-// Function to handle input changes
 function handleInput(inputElement) {
   var inputValue = inputElement.value;
   console.log("Input value: " + inputValue);
 }
 
-// Function to toggle login/logout buttons visibility
 async function toggleLogin() {
   const loginButton = document.getElementById("loginButton");
   const signOutButton = document.getElementById("signOutButton");
   loginButton.style.display = "none";
   signOutButton.style.display = "inline-block";
 }
-
-// Function to toggle login/logout buttons visibility
+//UI changes
 function logout() {
   const loginButton = document.getElementById("loginButton");
   const signOutButton = document.getElementById("signOutButton");
@@ -20,8 +17,7 @@ function logout() {
   loginButton.style.display = "inline-block";
   signOutButton.style.display = "none";
 }
-
-// Function to handle input changes and format them
+// Boolean "AND","OR"
 const inputElement = document.getElementById("searchInput");
 inputElement.addEventListener("input", (event) => {
   const inputValue = event.target.value;
@@ -34,37 +30,29 @@ inputElement.addEventListener("input", (event) => {
     }
   });
 });
-
-// MSAL configuration object
-const msalConfig = {
+//MSAL object definition and creation
+const msalconfig = {
   auth: {
     clientId: "56127de5-9f6a-46e4-a207-a069483e4a18",
-    authority: "https://login.microsoftonline.com/common/",
-    // Replace the localhost URL below with your permanent webpage URL
-        redirectUri: "https://sairajobs.onrender.com/",
+    authortity: "https://login.microsoftonline.com/common/",
+    //Replace the localhost url below with ur permanent webpage url
+    redirectUri: "http://localhost:5502/",
   },
   cache: {
     cacheLocation: "sessionstorage",
     storeAuthStateInCookie: true,
   },
 };
-
-// Set of unique file names
 const uniqueFileNames = new Set();
-
-// Initially access token is set to null
-let accessToken = null;
-
-// Username variable
-let username = "";
-
-// Success count
+//Initially accesstoken is set to null
+var accessToken = null;
 let successCount = 0;
-
-// Function to initialize MSAL object
-const MSALobj = new msal.PublicClientApplication(msalConfig);
-
-// Function to sign in
+username = "";
+var count;
+const keywords = [];
+const operators = [];
+const MSALobj = new msal.PublicClientApplication(msalconfig);
+//sign in function
 async function signIn() {
   const loginRequest = {
     scopes: [
@@ -87,7 +75,7 @@ async function signIn() {
     });
 }
 
-// Function to sign out
+//sign out function
 function signOut() {
   const logoutReq = {
     account: MSALobj.getAccountByUsername(username),
@@ -98,8 +86,7 @@ function signOut() {
       console.error("Logout error: ", error);
     });
 }
-
-// Function to handle the response from Microsoft
+// To handle the response from Microsoft
 MSALobj.handleRedirectPromise()
   .then((response) => {
     console.log(response);
@@ -112,13 +99,11 @@ MSALobj.handleRedirectPromise()
     console.log(error);
   });
 
-// Function to preview
 function Preview(url) {
   const fileContentFrame = document.getElementById("Content");
   fileContentFrame.src = url;
 }
-
-// Function to split input
+//Input split function
 function Inputsplit() {
   successCount = 0;
   const keywords = [];
@@ -142,8 +127,7 @@ function Inputsplit() {
   }
   searchfunc(keywords, operators);
 }
-
-// Main search function
+//Main search function
 async function searchfunc(keywords, operators) {
   const resultsList = document.getElementById("fileList");
   const searchResults = [];
@@ -176,7 +160,7 @@ async function searchfunc(keywords, operators) {
   }
 }
 
-// Function to make Graph API calls
+//Graph api calls
 async function search(parameter) {
   successCount++;
   if (accessToken == null) {
@@ -217,8 +201,7 @@ async function search(parameter) {
     console.error("Error: " + error);
   }
 }
-
-// Function to check if the user is already signed in
+// Check if the user is already signed in
 function checkAuthentication() {
   const accounts = MSALobj.getAllAccounts();
   if (accounts.length > 0) {
@@ -229,81 +212,71 @@ function checkAuthentication() {
     signOutButton.style.display = "inline-block";
   }
 }
-
-// Call checkAuthentication when the page loads
-window.addEventListener("load", checkAuthentication);
-
 // Call checkAuthentication when the page loads
 window.addEventListener("load", checkAuthentication);
 window.onload = function () {
-document.getElementById("searchInput").focus();
-document.addEventListener("click", function () {
-var userInputField = document.getElementById("searchInput");
-userInputField.focus();
-});
+  document.getElementById("searchInput").focus();
+  document.addEventListener("click", function () {
+    var userInputField = document.getElementById("searchInput");
+    userInputField.focus();
+  });
 };
-
-// Auto Focus to the input button
+//Auto Focus to the input button
 function focusInput() {
-document.getElementById("searchInput").focus();
+  document.getElementById("searchInput").focus();
 }
 focusInput();
 document.addEventListener("click", function (event) {
-if (event.target !== searchInput) {
-focusInput();
-}
+  if (event.target !== searchInput) {
+    focusInput();
+  }
 });
-
-// Event Listener to search on Enter
+//Event Listener to search on Enter
 document.addEventListener("keydown", function (event) {
-if (event.key === "Enter") {
-Inputsplit();
-}
+  if (event.key === "Enter") {
+    Inputsplit();
+  }
 });
 
-// Function to handle the "Sync" button click
+// Initialize Graph client with access token
+const graphClient = null;
+
+// Function to sync folder to OneDrive
 async function syncFunction() {
-const filePath = prompt("Enter file path:");
-const destPath = prompt("Enter destination folder name:");
+  const filePath = prompt("Enter file path: ");
+  const destPath = prompt("Destination folder name: ");
 
-if (!filePath || !destPath) {
-console.error("File path and destination folder are required");
-return;
-}
+  try {
+    // Wait for the initialization of the access token
+    await MSALobj.handleRedirectPromise();
 
-try {
-// Get access token from Microsoft Authentication Library (MSAL)
-const accessToken = await getAccessToken();
-// Send a request to trigger OneDrive file upload
-const response = await fetch("/trigger-onedrive-upload", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: accessToken,
-  },
-  body: JSON.stringify({ filePath, destPath }),
-});
+    // Check if accessToken is available
+    if (!accessToken) {
+      console.error("Access token is not available.");
+      return;
+    }
 
-if (response.ok) {
-  console.log("Folder monitoring started successfully");
-} else {
-  console.error("Failed to start folder monitoring");
-}
-} catch (error) {
-console.error("Error starting folder monitoring:", error);
-}
-}
-
-// Function to retrieve access token from MSAL
-async function getAccessToken() {
-try {
-const response = await fetch("/get-access-token");
-const data = await response.json();
-return data.accessToken;
-} catch (error) {
-console.error("Error retrieving access token:", error);
-throw error; // Propagate error to caller
-}
+    // Send a request to upload the file to OneDrive
+    fetch("/upload-to-onedrive", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filePath, accessToken, destPath }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Folder monitoring started successfully");
+        } else {
+          console.error("Failed to start folder monitoring");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  } catch (error) {
+    console.error("Error initializing access token:", error);
+  }
 }
 
 // Call syncFunction function when the "Sync" button is clicked
