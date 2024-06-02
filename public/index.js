@@ -1,3 +1,4 @@
+const { Client } = require("@microsoft/microsoft-graph-client");
 async function handleInput(inputElement) {
     var inputValue = inputElement.value;
     console.log("Input value: " + inputValue);
