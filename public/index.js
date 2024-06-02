@@ -155,8 +155,8 @@ async function search(parameter) {
     successCount++;
     if (accessToken == null) {
         alert("Sign in");
-       return;
-}
+        return;
+    }
 
     const resultsList = document.getElementById("fileList");
     const apiUrl = `https://graph.microsoft.com/v1.0/me/drive/search(q='${parameter}')?select=name,webUrl`;
@@ -244,25 +244,33 @@ async function syncFunction() {
             return;
         }
 
-        const response = await fetch("/upload-to-onedrive", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
+        // Initialize the Microsoft Graph client
+        const client = Client.init({
+            authProvider: (done) => {
+                done(null, accessToken);
             },
-            body: JSON.stringify({ filePath, accessToken, destPath }),
         });
 
-        if (response.ok) {
-            console.log("Folder monitoring started successfully");
-        } else {
-            const errorText = await response.text();
-            console.error("Failed to start folder monitoring:", errorText);
-        }
+        // Upload all existing files in the folder
+        const files = fs.readdirSync(filePath);
+        files.forEach((filename) => {
+            const fullPath = path.join(filePath, filename);
+            uploadFileToDrive(fullPath, client, destPath);
+        });
+
+        // Watch for changes in the folder
+        fs.watch(filePath, (eventType, filename) => {
+            if (filename && eventType === "change") {
+                console.log(`File ${filename} has been modified`);
+                uploadFileToDrive(path.join(filePath, filename), client, destPath);
+            }
+        });
+
+        console.log("Folder monitoring started successfully");
     } catch (error) {
         console.error("Error:", error);
     }
 }
-
 
 document.getElementById("syncButton").addEventListener("click", syncFunction);
 
