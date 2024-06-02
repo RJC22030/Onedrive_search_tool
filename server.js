@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors"); // Import CORS middleware
 const morgan = require("morgan");
 const path = require("path");
 const fs = require("fs");
