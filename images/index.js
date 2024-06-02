@@ -283,5 +283,3 @@ async function syncFunction() {
 // Call syncFunction function when the "Sync" button is clicked
 document.getElementById("syncButton").addEventListener("click", syncFunction);
 
-// Call syncFunction function when the "Sync" button is clicked
-document.getElementById("syncButton").addEventListener("click", syncFunction);
